@@ -6,8 +6,10 @@
 <%@page import="java.sql.Connection"%>
 <html>
 <head>
+
 <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
 <meta charset="utf-8">
+<title>previous elections</title>
 <link rel="stylesheet" type="text/css" href="CSS/t.css">
 <link rel="stylesheet"
 	href="https://fonts.googleapis.com/css?family=Allerta+Stencil">
@@ -18,7 +20,6 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="JS/HomePage.js"></script>
-<title>Ongoing Elections</title>
 <script>
 	function confirmGo(m, u) {
 		if (confirm(m)) {
@@ -40,9 +41,9 @@ body {
 		<br> <a href="profile.jsp"><span
 			class="glyphicon glyphicon-user"
 			style="font-size: 30px; color: white;"></span>&ensp; Your Account</a> <a></a>
-		<a href="PreviousElections.jsp"><span
+		<a href="OngoingElections.jsp"><span
 			class="glyphicon glyphicon-star-empty"
-			style="font-size: 30px; color: white;"></span>&ensp; Previous Elections</a> <a></a>
+			style="font-size: 30px; color: white;"></span>&ensp; Ongoing Elections</a> <a></a>
 
 	<!-- 	<a href="RideHistory.jsp"><span class="glyphicon glyphicon-list"
 			style="font-size: 30px; color: white;"></span>&ensp; Rides History</a> <a></a>-->
@@ -57,15 +58,13 @@ body {
 
 
 	<div id="title" style="cursor: pointer" onclick="">
-		<a href="OngoingElections.jsp" style="color: white"><span
-			class="glyphicon glyphicon-hourglass"></span> Ongoing Elections</a>
+		<a href="PreviousElections.jsp" style="color: white"><span
+			class="glyphicon glyphicon-hourglass"></span>Previous Elections</a>
 	</div>
 	<hr>
-
-</header>
-
+	</header>
 <body>
-	<%
+<%
 //	String id = request.getParameter("userId");
 	
 	
@@ -84,7 +83,7 @@ body {
 	<font><strong></strong></font>
 </h2>
 <br>
-	<table align="center" style="font-family:Comic Sans MS;  font-size : 135%;" height="200" width="750" cellpadding="25" cellspacing="15">
+	<table align="center" font face = "Comic sans MS"height="200" width="750" cellpadding="25" cellspacing="15">
 	<tr>
 
 	</tr>
@@ -100,7 +99,7 @@ body {
 		try {
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/ems","root","1234");
 			statement = connection.createStatement();
-			String sql = "SELECT * FROM Elections where status  = 1";
+			String sql = "SELECT * FROM Elections where status  = -1";
 
 			resultSet = statement.executeQuery(sql);
 			while (resultSet.next()) {
@@ -112,7 +111,7 @@ body {
 		<td><%=resultSet.getString("post")%></td>
 		<td><%=resultSet.getString("start_time")%></td>
 		<td><%=resultSet.getString("end_time")%></td>
-		<td><a href="Candidates_Retrieval.jsp?id=<%=resultSet.getString("E_id")%>">View Candidates</a></td>
+		<td><a href="displayResults.jsp?id=<%=resultSet.getString("E_id")%>">View Results</a></td>
 	</tr>
 
 	<%
@@ -126,5 +125,4 @@ body {
 </body>
 
 </html>
-
 
