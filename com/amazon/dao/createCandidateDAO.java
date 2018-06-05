@@ -1,4 +1,4 @@
-package com.amazon.dao;
+package com.amazon.dbConnection;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,26 +6,28 @@ import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
-import com.amazon.beans.createCandidate;
-import com.amazon.beans.createElection;
+import com.amazon.beans.CandidateBean;
+
+
 
 public class createCandidateDAO {
 	ConnectionFactory connectionFactory = new ConnectionFactory();
-	Connection con = connectionFactory.getConnection();
 
-	public static int createCandidateInfo(createCandidate createCandidateBean) throws SQLException {
-		int result = 0;
+
+	public static int createCandidateInfo(CandidateBean createCandidateBean) throws SQLException {
 		try {
 			Connection connection = ConnectionFactory.getConnection();
 			PreparedStatement query = connection.prepareStatement(
-					"insert into Candiadates(candidate_id,img_data,E_id,Age,Agenda,party_name) values(?,?,?,?,?,?)");
+					"insert into Candidates(candidate_id,Candidate_Name,image_path,E_id,Age,Agenda,party_name,emailId) values(?,?,?,?,?,?,?,?)");
 			
 			query.setString(1, createCandidateBean.getCandidate_Id());
-			query.setBlob(2, createCandidateBean.getPhoto());
-			query.setString(3, createCandidateBean.getElection_Id());
-			query.setString(4 ,createCandidateBean.getAge());
-			query.setString(5, createCandidateBean.getAgenda());
-			query.setString(5, createCandidateBean.getParty_Name());
+			query.setString(2, createCandidateBean.getCandidate_Name());
+			query.setString(3, createCandidateBean.getImagePath());
+			query.setString(4, createCandidateBean.getElection_Id());
+			query.setInt(5,createCandidateBean.getAge());
+			query.setString(6, createCandidateBean.getAgenda());
+			query.setString(7, createCandidateBean.getParty_Name());
+			query.setString(8,createCandidateBean.getEmailId());
 			
 			
 			int resultSet = query.executeUpdate();
