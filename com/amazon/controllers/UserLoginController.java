@@ -12,30 +12,30 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.amazon.dao.LoginDAO;
+import com.amazon.dbConnection.LoginDAO;
 
 @WebServlet("/UserLoginController")
 public class UserLoginController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String voterID = request.getParameter("voter_id");
-		String password = request.getParameter("password");
+		String voterID = request.getParameter("uname");
+		String password = request.getParameter("psw");
 		PrintWriter out = response.getWriter();
 		HttpSession session = request.getSession(true);
-		session.setAttribute("customerID", voterID);
-		request.setAttribute("customerID", voterID);
-
+		session.setAttribute("voter_id", voterID);
+		request.setAttribute("voter_id", voterID);
 		LoginDAO loginDAO = new LoginDAO();
 		try {
-			boolean result = loginDAO.validate(voterID, password);
-			if (result) {
-				RequestDispatcher requestDispatcher = request.getRequestDispatcher("HomePage.jsp");
+		    String result = loginDAO.validate(voterID, password);
+			if (result != null) {
+				RequestDispatcher requestDispatcher = request.getRequestDispatcher("OngoingElections.jsp");
 				requestDispatcher.forward(request, response);
+				session.setAttribute("location",result);
 
 			} else {
 				out.println("<script type=\"text/javascript\">");
 				out.println("alert('User or password incorrect');");
-				out.println("location='welcomepage.html';");
+				out.println("location='login.jsp';");
 				out.println("</script>");
 				
 			}
